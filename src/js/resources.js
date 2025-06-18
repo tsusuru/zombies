@@ -1,16 +1,18 @@
-import { ImageSource, Sound, Resource, Loader } from 'excalibur'
+import { ImageSource, Sound, Loader } from 'excalibur'
 
-// voeg hier jouw eigen resources toe
+// laad hier al je sprites en geluiden
 const Resources = {
-    Fish: new ImageSource('images/fish.png')
+  Player:    new ImageSource('images/player.png'),
+  Zombie:    new ImageSource('images/zombie.png'),
+  Bullet:    new ImageSource('images/bullet.png'),
+  ShootSfx:  new Sound('sounds/shoot.wav'),
+  HitSfx:    new Sound('sounds/hit.wav'),
+  Background: new ImageSource('images/map.png'),
 }
 
-
-
-
 const ResourceLoader = new Loader()
-for (let res of Object.values(Resources)) {
-    ResourceLoader.addResource(res)
+for (const r of Object.values(Resources)) {
+  ResourceLoader.addResource(r)
 }
 
 export { Resources, ResourceLoader }
