@@ -1,5 +1,5 @@
 // src/js/zombie.js
-import { Actor, Vector, CollisionType, CircleCollider } from "excalibur";
+import { Actor, Vector, CollisionType, CircleCollider, Animation, AnimationStrategy } from "excalibur";
 import { Resources } from "./resources.js";
 import { HealthBar } from "./healthbar.js";
 import { Player } from "./player.js";
@@ -29,14 +29,36 @@ export class Zombie extends Actor {
     }));
   }
 
-  // hier wordt de zombie klaargezet
-  onInitialize(engine) {
-    const sprite = Resources.Zombie.toSprite();
-    if (sprite) {
-      sprite.scale = new Vector(0.3, 0.3);
-      this.graphics.use(sprite);
-    }
+  async onInitialize(engine) {
+    // alle images geladen
+    await Promise.all([
+      Resources.ZombieWalk1.load(),
+      Resources.ZombieWalk2.load(),
+      Resources.ZombieWalk3.load(),
+      Resources.ZombieWalk4.load(),
+      Resources.ZombieWalk5.load()
+    ]);
+
+    
+    const sprites = [
+      Resources.ZombieWalk1.toSprite(),
+      Resources.ZombieWalk2.toSprite(),
+      Resources.ZombieWalk3.toSprite(),
+      Resources.ZombieWalk4.toSprite(),
+      Resources.ZombieWalk5.toSprite()
+    ];
+
+    
+    const walkAnim = new Animation({
+      frames: sprites.map(sprite => ({ graphic: sprite, duration: 100 })),
+      strategy: AnimationStrategy.Loop
+    });
+
+    walkAnim.scale = new Vector(0.15, 0.15); // Schaal indien nodig
+    this.graphics.use(walkAnim);
+
     this.on('collisionstart', evt => this.handleCollision(evt));
+
   }
 
   // hier volgt de zombie de speler en wordt collisionType aangepast

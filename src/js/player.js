@@ -6,6 +6,8 @@ import { Weapon } from "./weapon.js";
 import { Zombie } from "./zombie.js";
 
 export class Player extends Actor {
+  currentAim = new Vector(0, 0); // private
+
   constructor(startPos = new Vector(100, 100)) {
     super({
       pos: startPos,
@@ -21,7 +23,7 @@ export class Player extends Actor {
       durability: 100,
       speed: 500
     });
-    this.healthBar = new HealthBar(10, this.width, 6);
+  
   }
 
   // hier wordt de speler sprite klaargezet en pointer events toegevoegd
@@ -81,6 +83,10 @@ export class Player extends Actor {
     if (kb.wasPressed(Keys.R)) {
       this.currentWeapon.reload(10);
     }
+    
+
+    
+    
   }
 
   // hier krijgt speler damage
